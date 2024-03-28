@@ -1,6 +1,6 @@
 # -- ALDI WEB SCRAPER -- 
 #  Kye Barker
-#  01/03/2024
+#  26/03/2024
 #  sgkbarke@liverpool.ac.uk
 #  Below is the code used to access the website Aldi.com
 #  It accesses the website, page by page and takes product 
