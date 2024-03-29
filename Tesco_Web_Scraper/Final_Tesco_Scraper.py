@@ -112,10 +112,24 @@ if __name__ == '__main__':
               }
               print(product.name)
               
-              #Send the Key-Value pairs to the database
-              doc_ref = db.collection('TescoProduct').document()
-              doc_ref.set(data)
+              # Find a product in the database with the same name
+              existing_doc = db.collection('TescoProduct').where('Product_Name', '==', product.name).get()
               
+              # If there is already a product in the databse with the same name
+              if existing_doc:
+                for doc in existing_doc:
+                
+                  # Update the price of the product, 
+                  # and if it is still in stock
+                  doc_red = db.collection('TescoProduct').document(doc.id)
+                  doc_ref.update({'Product_Price' : product.price, 'Price per unit' : product.price_per_unit, 'In-Stock' : product.product_status})
+              else:
+              
+              #Send the Key-Value pairs to the database
+                doc_ref = db.collection('TescoProduct').document()
+                doc_ref.set(data)
+              
+  
   
           firefox_driver.quit()
   
