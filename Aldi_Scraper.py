@@ -123,11 +123,30 @@ if __name__ == '__main__':
         # format the data in a Firebase friendly format 
         for product in ProductList:
           data = {
-                  'Product_Name': product.name,
                   'Product_Price': product.price,
   	              'Price per unit': product.price_per_unit
           }
-          print(product.name)
+          
+          # Check the database for products with the same name
+          doc_ref = db.collection('ALdiProduct').where('Product_Name', '==', product.name).get()
+          
+          # If it exists in the database
+          if doc_ref:
+            for doc in doc_ref:
+              
+              # Update the prices and names
+              doc_ref = db.collection('AldiProduct').document(doc.id)
+              doc_ref.update(data)
+              print(product.name, " updated in the database")
+          
+          # If it does not exist  
+          else:
+          
+            # Update 'data' and post to the database 
+            data['Product_Name'] = product.name
+            doc_ref = db.collection('AldiProduct').document()
+            doc_ref.set(data)
+            print(product.name, " added to the database")
           
           #Add the data to the Firestore database
           doc_ref = db.collection('AldiProduct').document()
@@ -136,6 +155,7 @@ if __name__ == '__main__':
     except Exception as e:
       
       print("Error:", e)
+        
         
 
         
