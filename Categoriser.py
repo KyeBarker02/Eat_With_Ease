@@ -20,7 +20,7 @@ firebase_admin.initialize_app(cred)
 db = firestore.client()
 
 # Array containing the names of the collections within the database
-collections = ['TescoProduct', 'AldiProduct']
+collections = ['AldiProduct']
 
 # Loop through each of the collections stored in the database
 for collection_name in collections:
@@ -38,17 +38,25 @@ for collection_name in collections:
       document_data = doc.to_dict()
       
       if 'Match' in document_data or 'Tags' in document_data or 'Category' in document_data or 'Stock_Image' in document_data:
-            print(f"Skipping document {document_data['Product_Name']}, already contains some categorization data.")
+            print(f"Skipping document {document_data['Product Name']}, already contains some categorization data.")
             continue  # Skip to the next document
 
       try:
-      
-        # Save each document data to a JSON file
-        with open(f"{document_data['Product_Name']}.json", 'w') as f:
+        if ('/' in document_data['Product Name']):
+          product_name = document_data['Product Name'].replace('/', '')
+          with open(f"{product_name}.json", 'w') as f:
             json.dump(document_data, f, indent=4)
+          productName = product_name
         
-        # Set the variables for API computation
-        productName = document_data['Product_Name']
+        else:
+          # Save each document data to a JSON file
+          with open(f"{document_data['Product Name']}.json", 'w') as f:
+              json.dump(document_data, f, indent=4)
+          
+          # Set the variables for API computation
+          productName = document_data['Product Name']
+          
+          
         payload = {
             "plu_code": "",
             "title": productName,
@@ -69,7 +77,7 @@ for collection_name in collections:
         tags = json_response['breadcrumbs']
         category = json_response['category']
         stock_image = json_response['image']
-        print(document_data['Product_Name'])
+        print(document_data['Product Name'])
         print(match)
         cat_data = {
           'Match' : match,
@@ -88,10 +96,7 @@ for collection_name in collections:
       
       # Stop the program and highlight the error  
       except Exception as e: 
-            print(f"Error processing product {document_data['Product_Name']}: {str(e)}")
+            print(f"Error processing product {document_data['Product Name']}: {str(e)}")
             
             # Exit the loop
             break  
-
-    
-    
