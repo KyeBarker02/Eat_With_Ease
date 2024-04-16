@@ -1,3 +1,10 @@
+//
+//  AppDelegate.swift
+//  EatWithEase
+//
+//  Created by Barker, Kye on 09/04/2024.
+//
+
 import Foundation
 import FirebaseCore
 import FirebaseFirestore
