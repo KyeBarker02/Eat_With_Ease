@@ -1,3 +1,10 @@
+//
+//  AppDelegate.swift
+//  EatWithEase
+//
+//  Created by Barker, Kye on 12/04/2024.
+//
+
 import UIKit
 
 
@@ -155,7 +162,7 @@ class ProductDetailsViewController: UIViewController {
             if let productName = product["Product Name"] as? String {
                 result[productName] = product
             }
-        // Sorts the values by price, cheapest to most expensive, to promote cheapeer eating
+        // Sorts the values by price, cheapest to most expensive, to promote cheaper eating
         }.values.sorted { (dict1, dict2) -> Bool in
             guard let price1 = dict1["Product Price"] as? Float,
                   let price2 = dict2["Product Price"] as? Float else {
@@ -173,6 +180,7 @@ class ProductDetailsViewController: UIViewController {
     
 }
 
+// Includes a table view in the View cont
 extension ProductDetailsViewController: UITableViewDelegate, UITableViewDataSource {
     
     
