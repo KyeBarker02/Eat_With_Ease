@@ -180,58 +180,73 @@ class ProductDetailsViewController: UIViewController {
     
 }
 
-// Includes a table view in the View cont
+// Includes a table view in the View controller
 extension ProductDetailsViewController: UITableViewDelegate, UITableViewDataSource {
     
     
-    
+    // Sets the number of rows in  the table by counting the number of products in the similarProducts array
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         return similarProducts.count
     }
-    
+
+    // Constructs each cell in each row and sets the structure for them
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
+
+        //Sets the cell variable
         let cell = tableView.dequeueReusableCell(withIdentifier: "ProductCell", for: indexPath) as! ProductTableViewCell
 
+        // Initialises the name and price of the similar products and sets them to the correct values
         let productName = similarProducts[indexPath.row]["Product Name"] as? String ?? "Product Unknown"
         let productPrice = similarProducts[indexPath.row]["Product Price"] as? Float ?? 0.0
 
 
+        // Sets the correct variables as the text for placing in the cell
         let truncatedProductName = truncateText(productName, maxLength: 27)
         let truncatedText = "\(truncatedProductName)  :    £\(productPrice)"
-        
+
+        // Places the text in the cell
         cell.textLabel?.text = truncatedText
         return cell
     }
-    
+
+    // A function to remove the end of the string if it is too long for the cell to handle
     func truncateText(_ text: String, maxLength: Int) -> String {
+
+        //If the length of the string is over the given maximum length
         if text.count > maxLength {
+
+            //Cuts the String off and finishes it with elipses to allude to the truncation
             let truncatedText = text.prefix(maxLength) + "..."
             return String(truncatedText)
         }
         return text
     }
 
-    
+    // A function to set the height of the cell
     func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
+
+        // Once again sets the name and price as the text for the cell to fit into 
         let productName = similarProducts[indexPath.row]["Product Name"] as? String ?? "Product Unknown"
         let productPrice = similarProducts[indexPath.row]["Product Price"] as? Float ?? 0.0
 
         let truncatedProductName = truncateText(productName, maxLength: 27) 
         let truncatedText = "\(truncatedProductName):    \(productPrice)"
         
+        // Sets the height and number of lines of the cell based on the text going into it
         let label = UILabel(frame: CGRect(x: 0, y: 0, width: tableView.bounds.width - 32, height: CGFloat.greatestFiniteMagnitude))
         label.numberOfLines = 0
         label.text = truncatedText
         label.sizeToFit()
 
-        return label.frame.height + 16  // Adjust padding as needed
+        return label.frame.height + 16  
     }
 
-    
+    // Set the estimated hight needed for the cell
     func tableView(_ tableView: UITableView, estimatedHeightForRowAt indexPath: IndexPath) -> CGFloat {
         return 1500
     }
-    
+
+    // A function for handling the process when the cell is clicked
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         
         guard indexPath.row < similarProducts.count else {
