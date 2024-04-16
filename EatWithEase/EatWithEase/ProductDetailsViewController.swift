@@ -253,15 +253,16 @@ extension ProductDetailsViewController: UITableViewDelegate, UITableViewDataSour
             print("Invalid index path")
             return
         }
-        
-        let selectedProduct = similarProducts[indexPath.row]
-        
+
+        // Retrieves the details from the selected product and sets them as the lables to output them to the screen
+        let selectedProduct = similarProducts[indexPath.row] 
         productNameLabel.text = ("Name: \(selectedProduct["Product Name"] as? String ?? "Unknown")")
         productPriceLabel.text = ("Price: £\(selectedProduct["Product Price"] as? Float ?? 0.0)")
         productPPULabel.text = ("Price Per Unit: \(selectedProduct["Price per unit"] as? String ?? "Unknown")")
         productStoreLabel.text = ("Store: \(selectedProduct["Store"] as? String ?? "Unknown")")
         productMatchLabel.text = ("Category: \(selectedProduct["Category"] as? String ?? "Unknown")")
-        
+
+        // Sets the selected product details to the  callable variables to allow addition to the users list
         productDetails = [
             selectedProduct["Product Name"] ?? "",
             "£\(selectedProduct["Product Price"] as? Float ?? 0.0)",
@@ -274,15 +275,12 @@ extension ProductDetailsViewController: UITableViewDelegate, UITableViewDataSour
         ]
     }
 
-    
-    
-
-
-
 }
 
+// Formatting for the tables cells
 class ProductTableViewCell: UITableViewCell {
-    
+
+    // Sets the properties for the label within the cell
     let productLabel: UILabel = {
         let label = UILabel()
         label.translatesAutoresizingMaskIntoConstraints = false
@@ -290,13 +288,14 @@ class ProductTableViewCell: UITableViewCell {
         label.setContentCompressionResistancePriority(.required, for: .vertical)
         return label
     } ()
-    
+
+    // Sets the placecment of each cell within hte table
     override init(style: UITableViewCell.CellStyle, reuseIdentifier: String?) {
         super.init(style: style, reuseIdentifier: reuseIdentifier)
         
         addSubview(productLabel)
         
-        
+        // Formats the height and widtch constraints on each cell
         NSLayoutConstraint.activate([
             productLabel.topAnchor.constraint(equalTo: topAnchor, constant: 32),
             productLabel.bottomAnchor.constraint(equalTo: bottomAnchor, constant: -32),
@@ -313,7 +312,6 @@ class ProductTableViewCell: UITableViewCell {
     override func awakeFromNib() {
         super.awakeFromNib()
 
-        // Initialization code
     }
     
     override func setSelected(_ selected: Bool, animated: Bool) {
