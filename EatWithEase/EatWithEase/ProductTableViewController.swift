@@ -81,7 +81,7 @@ class ProductTableViewController: UITableViewController, UISearchBarDelegate {
                let destinationVC = segue.destination as? ProductDetailsViewController {
                 let product = products[indexPath.row]
 
-                // Passes the correct details over to the newxt View
+                // Passes the correct details over to the next View
                 destinationVC.productDetails = [product.name, product.price, product.ppu, product.store, product.match, product.tags, product.category, product.stockImage]
             }
         }
